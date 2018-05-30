@@ -1,16 +1,16 @@
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-5 col-md-6 col-sm-7 col-xs-8 ">
-			<span class="display-4">Select Truck</span>
-		</div>
-	</div>
-	<hr>
-	<div class="row">
-		<div class="col-md-2">
-			<h4>Country</h4>
-		</div>
-		<div class="col-md-4 col-lg-3" id="countries">
-			<span *ngIf="selectors.countries as countries ; else spinner">
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <span class="display-4">Select Truck</span>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-2">
+            <h4>Country</h4>
+        </div>
+        <div class="col-md-4 col-lg-3" id="countries">
+            <span *ngIf="selectors.countries as countries ; else spinner">
 				<select class="form-control form-control-sm"
 					[(ngModel)] = "current.country"
 					(change)='getDistricts(current.country)' >
@@ -19,15 +19,15 @@
 					</option>
 				</select>
 			</span>
-		</div>
-	</div>
-	&nbsp;
-	<div class="row">
-		<div class="col-md-2">
-			<h4>District</h4>
-		</div>
-		<div class="col-md-4 col-lg-3" id="districts">
-			<span *ngIf="current.country; else disabledSelector">
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-2">
+            <h4>District</h4>
+        </div>
+        <div class="col-md-4 col-lg-3" id="districts">
+            <span *ngIf="current.country; else disabledSelector">
 				<span *ngIf="selectors.districts as districts; else spinner">
 					<select class="form-control form-control-sm"
 						[(ngModel)] = "current.district"
@@ -37,16 +37,16 @@
 						</option>
 					</select>
 				</span>
-			</span>
-		</div>
-	</div>
-	&nbsp;
-	<div class="row">
-		<div class="col-md-2">
-			<h4>Season</h4>
-		</div>
-		<div class="col-md-4 col-lg-3" id="seasons">
-			<span *ngIf="current.district; else disabledSelector">
+            </span>
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-2">
+            <h4>Season</h4>
+        </div>
+        <div class="col-md-4 col-lg-3" id="seasons">
+            <span *ngIf="current.district; else disabledSelector">
 				<span *ngIf="selectors.seasons as seasons; else spinner">
 					<select class="form-control form-control-sm"
 						[(ngModel)] = "current.season"
@@ -56,17 +56,17 @@
 						</option>
 					</select>
 				</span>
-			</span>
-		</div>
-	</div>
-	<ng-container id="creditcyclecontainer" *ngIf="!view.hideCreditCycles">
-		&nbsp;
-		<div class="row">
-			<div class="col-md-2">
-				<h4>Credit Cycle</h4>
-			</div>
-			<div class="col-md-4 col-lg-3" id="creditcycles">
-				<span *ngIf="current.season; else disabledSelector">
+            </span>
+        </div>
+    </div>
+    <ng-container id="creditcyclecontainer" *ngIf="!view.hideCreditCycles">
+        &nbsp;
+        <div class="row">
+            <div class="col-md-2">
+                <h4>Credit Cycle</h4>
+            </div>
+            <div class="col-md-4 col-lg-3" id="creditcycles">
+                <span *ngIf="current.season; else disabledSelector">
 					<span *ngIf="selectors.creditCycles as creditCycles; else spinner">
 						<select class="form-control form-control-sm"
 							[(ngModel)] = "current.creditCycle"
@@ -76,17 +76,17 @@
 							</option>
 						</select>
 					</span>
-				</span>
-			</div>
-		</div>
-	</ng-container>
-	&nbsp;
-	<div class="row">
-		<div class="col-md-2">
-			<h4>Delivery</h4>
-		</div>
-		<div class="col-md-4 col-lg-3" id="deliveries">
-			<span *ngIf="current.creditCycle; else disabledSelector">
+                </span>
+            </div>
+        </div>
+    </ng-container>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-2">
+            <h4>Delivery</h4>
+        </div>
+        <div class="col-md-4 col-lg-3" id="deliveries">
+            <span *ngIf="current.creditCycle; else disabledSelector">
 				<span *ngIf="selectors.deliveries as deliveries; else spinner">
 					<select class="form-control form-control-sm"
 						[(ngModel)] = "current.delivery"
@@ -96,16 +96,16 @@
 						</option>
 					</select>
 				</span>
-			</span>
-		</div>
-	</div>
-	&nbsp;
-	<div class="row">
-		<div class="col-md-2">
-			<h4>Truck</h4>
-		</div>
-		<div class="col-md-4 col-lg-3" id="trucks">
-			<span *ngIf="current.delivery; else disabledSelector">
+            </span>
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-2">
+            <h4>Truck</h4>
+        </div>
+        <div class="col-md-4 col-lg-3" id="trucks">
+            <span *ngIf="current.delivery; else disabledSelector">
 				<span *ngIf="selectors.trucks as trucks; else spinner">
 					<select class="form-control form-control-sm"
 						[(ngModel)] = "current.truck"
@@ -116,37 +116,33 @@
 						</option>
 					</select>
 				</span>
-			</span>
-		</div>
-	</div>
-	&nbsp;
-	<div class="row">
-		<div class="col-md-10 col-lg-9 ">
-			<span class="alert alert-danger" id="alert" [hidden]='!invalid'></span>
-		</div>
-	</div>
-	&nbsp;
-	<div class="row">
-		<div class="col-md-3 col-lg-2 text-left align-middle">
-			<button id="buttonLogout" *ngIf="!view.isLoggingOut"
-						class="btn btn-lg btn-default" (click)="logout()">
-				Logout
-			</button>
-			<span id="buttonIsLoggingOut" *ngIf="view.isLoggingOut" class="fa fa-spin fa-spinner fa-2x"></span>
-		</div>
-		<div class="col-md-3 col-lg-3 text-right">
-			<button id="buttonGo" *ngIf="!view.isGoing"
-						class="btn btn-lg btn-primary" (click)="go()"
-						[disabled]="!current.truck || !current.district || !current.delivery">
+            </span>
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-md-10 col-lg-9 ">
+            <span class="alert alert-danger" id="alert" [hidden]='!invalid'></span>
+        </div>
+    </div>
+    &nbsp;
+    <div class="row">
+        <div class="col-6 text-left align-middle">
+            <button id="buttonLogout" *ngIf="!view.isLoggingOut" class="btn btn-lg btn-default" (click)="logout()">
+            Logout
+          </button>
+            <span id="buttonIsLoggingOut" *ngIf="view.isLoggingOut" class="fa fa-spin fa-spinner fa-2x"></span>
+        </div>
+        <div class="col-6 text-right">
+            <button id="buttonGo" *ngIf="!view.isGoing" class="btn btn-lg btn-primary" (click)="go()" [disabled]="!current.truck || !current.district || !current.delivery">
 				Continue
 			</button>
-			<span id="buttonIsGoing" *ngIf="view.isGoing" class="fa fa-spin fa-spinner fa-2x"></span>
-		</div>
-	</div>
+            <span id="buttonIsGoing" *ngIf="view.isGoing" class="fa fa-spin fa-spinner fa-2x"></span>
+        </div>
+    </div>
 </div>
-<ng-template #spinner><span  id="spinner-template" class="fa fa-spinner fa-spin"></span></ng-template>
+<ng-template #spinner><span id="spinner-template" class="fa fa-spinner fa-spin"></span></ng-template>
 <ng-template #disabledSelector id='disabled-selector-template'>
-	<select id="disabledSelector" class="form-control form-control-sm"
-	 					[disabled]="true">
+    <select id="disabledSelector" class="form-control form-control-sm" [disabled]="true">
 	</select>
 </ng-template>
