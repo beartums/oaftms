@@ -1,0 +1,146 @@
+<div class="wrapper container-fluid w-100">
+	<div class="header">
+		<h3>{{data.drop.DropName}}: {{data.movementType}} {{getDropWeight(data.dropMovementDetails)}} Kg</h3>
+		<h3>Truck #{{params.TruckNumber}} <small class="text-muted">{{view.size}}</small></h3>
+	</div>
+	<div class="content w-100">
+		<div class="row w-100">
+			<div class="col-12 col-lg-10 offset-lg-1 w-100">
+				<table class="table w-100 table-sm table-striped">
+					<thead class="thead-inverse w-100">
+						<tr class="w-100">
+							<th>Input</th>
+							<th class="text-right">Pkts</th>
+							<th class="text-right">Bales</th>
+							<th class="text-right">P/B</th>
+							<th>Lot#</th>
+							<th>Packets</th>
+							<th>Bales</th>
+							<!-- make room for the vertical scrollbar >
+							<th>&nbsp;</th-->
+						</tr>
+					</thead>
+					<tr *ngFor="let dropMovementDetail of data.dropMovementDetails">
+						<td class="align-middle">
+							<h5>{{ getInputNameAndWeight(dropMovementDetail) }}</h5>
+						</td>
+						<td class="align-middle text-right">{{ getPacketQuantity(dropMovementDetail) }}</td>
+						<td class="align-middle text-right">
+							<span  *ngIf="dropMovementDetail.PacketsPerBale>0">
+								{{ getBaleQuantity(dropMovementDetail) }}
+							</span>
+						</td>
+						<td class="align-middle text-right">
+							<span  *ngIf="dropMovementDetail.PacketsPerBale>0">
+								{{ dropMovementDetail.PacketsPerBale }}
+							</span>
+						</td>
+						<td class="align-middle">
+							<input *ngIf="!data.confirm" class="form-control" [(ngModel)]="dropMovementDetail.enteredLot" placeholder="Lot #" size="10">
+							<span *ngIf="data.confirm"><h6>{{dropMovementDetail.enteredLot}}</h6></span>
+						</td>
+						<td class="align-middle">
+							<input  *ngIf="!data.confirm" class="form-control" [(ngModel)]="dropMovementDetail.enteredPackets" placeholder="P" size="4">
+							<span *ngIf="data.confirm"><h6>{{dropMovementDetail.enteredPackets}}</h6></span>
+						</td>
+						<td  class="align-middle">
+							<input class="form-control"
+								*ngIf="dropMovementDetail.PacketsPerBale>0 && !data.confirm" [(ngModel)]="dropMovementDetail.enteredBales" placeholder="B" size="4">
+							<span *ngIf="data.confirm">
+								<h6>
+									{{dropMovementDetail.enteredBales}}
+								</h6>
+							</span>
+						</td>
+						<!--td>&nbsp;</td-->
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!--div class="row row-table align-middle" *ngFor="let dropMovementDetail of data.dropMovementDetails">
+			<!-- Column for descriptions and packet/bales quantities>
+			<div class="col-7">
+				<div class="row">
+					<div class='col-lg-6 col-md-8 col-sm-10 col-xs-12'>
+						<h4>{{ getInputNameAndWeight(dropMovementDetail) }}</h4>
+					</div>
+					<div class='col-lg-6 col-md-4 col-sm-10 col-xs-12'>
+						P: {{ getPacketQuantity(dropMovementDetail) }}<span *ngIf="dropMovementDetail.PacketsPerBale>0">; &nbsp;
+						B: {{ getBaleQuantity(dropMovementDetail) }}</span>
+						<span *ngIf="dropMovementDetail.PacketsPerBale > 0">
+							; &nbsp; P/B:
+								{{ dropMovementDetail.PacketsPerBale }}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class='col-5'>
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-8 col-xs-10">
+						<input class="form-control" [(ngModel)]="dropMovementDetail.enteredLot" placeholder="Lot #">
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-4 col-xs-5">
+						<input class="form-control" [(ngModel)]="dropMovementDetail.enteredPackets" placeholder="P">
+					</div>
+					<div class="col-lg-2 col-md-3 col-sm-4 col-xs-5" *ngIf="dropMovementDetail.PacketsPerBale>0">
+						<input class="form-control" [(ngModel)]="dropMovementDetail.enteredBales" placeholder="B">
+					</div>
+				</div>
+			</div>
+		</div-->
+	</div>
+	<div class="row footer align-middle">
+		<div class="col-3">
+			<button class="btn btn-lg btn-default" (click)="back()">
+				< Back
+			</button>
+		</div>
+		<div class="col-3">
+			<div class="row my-auto">
+				<div class="col-6 text-right my-auto">
+					<span class="my-auto">to {{data.movementType}}:</span>
+				</div>
+				<div class="col-6 my-auto">
+					<h6 class="my-auto">
+						<strong>{{getDropWeight(data.dropMovementDetails)}}</strong>
+					</h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6 text-right my-auto">
+					<span class="my-auto">{{data.movementType}}ed:</span>
+				</div>
+				<div class="col-6 my-auto">
+					<h6 class="">
+						<strong>
+							<span
+							[ngClass]="{'text-danger':getWeightDiff(data.dropMovementDetails)>=.1,
+														'text-warning':getWeightDiff(data.dropMovementDetails)>.01 &&
+													 								getWeightDiff(data.dropMovementDetails)<.1,
+														'text-success':getWeightDiff(data.dropMovementDetails)<.01}">
+								{{getEnteredWeight(data.dropMovementDetails)}}
+							</span>
+						</strong>
+					</h6>
+				</div>
+			</div>
+		</div>
+		<div class="col-3 my-auto">
+			<ng-container class="my-auto" *ngIf="data.confirm">
+				<button *ngFor="let role of roles" class='btn btn-sm btn-default my-auto mr-2' (click)="sign(role.abbreviation,modal)"
+								[ngClass]="signatures[role.abbreviation] ? 'btn-success' : 'btn-outline-danger'">
+					{{role.abbreviation}}
+				</button>
+			</ng-container>
+		</div>
+		<div class="col-3 text-right">
+			<button class="btn btn-lg btn-primary my-auto" (click)="go()"
+				[disabled]="!areAllSigned(signatures) && data.confirm">
+				Confirm >
+			</button>
+		</div>
+	</div>
+
+</div>
+<signature-modal #modal [(signature)]="signatures[role]">
+</signature-modal>

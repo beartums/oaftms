@@ -1,0 +1,67 @@
+<div class="container-fluid">
+	&nbsp;
+	<div class="row">
+		<div class='col'>
+			<h2>Confirm Route</h2>
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-lg-6 col-md-12 text-left">
+			<h2>{{data.delivery.DeliveryName}}</h2>
+		</div>
+		<div class="Row">
+			<div class="col text-left">
+				<h2>Truck #{{data.truck.TruckNumber}}</h2>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12">
+			Scheduled: {{data.truck.date | date}};
+			Actual: {{ today | date}}
+		</div>
+	</div>
+	<hr />
+	<div class="row text-center">
+		<div class = "col-md-12 text-center">
+			<h3>Drop Assignments</h3>
+		</div>
+	</div>
+	<hr />
+	<div class="row" *ngFor="let da of data.dropAssignments">
+		<div class = "col-md-2 strong text-right">
+			{{da.DropOrder}}.
+		</div>
+		<div class = 'col-md-5'>
+			<h4>{{ds.getDrop(da).DropName}}</h4>
+		</div>
+		<div class = "col-md-2 text-right">
+			<strong>{{getTruckKg([da]) | number:'1.0-0'}} kg</strong>
+		</div>
+	</div>
+	<div class="row">
+		<div class="offset-md-6 col-md-3 text-right">
+			<h4>{{ getTruckKg(data.dropAssignments) | number: '1.0-0' }} kg</h4>
+		</div>
+	</div>
+	&nbsp;
+	<div class="row">
+		<div class="col-md-10 col-lg-9 ">
+			<span class="alert alert-danger" [hidden]='!invalid'></span>
+		</div>
+	</div>
+	&nbsp;
+	<div class="row">
+		<div class="col-md-6 col-lg-6 text-left">
+			<button class="btn btn-lg btn-default" (click)="back()">
+				< Back
+			</button>
+		</div>
+		<div class="col-md-6 col-lg-6 text-right">
+			<button class="btn btn-lg btn-primary" (click)="go()">
+				Continue >
+			</button>
+		</div>
+	</div>
+</div>
