@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 
 import { ObjectIndexService, IndexDefinition } from 'object-index-service';
 
-import { Truck, DropAssignment } from './classes.class';
+import { Truck, DropAssignment, Drop } from './classes.class';
 
 @Injectable()
 export class DataService {
@@ -360,7 +360,7 @@ export class DataService {
 		return null;
 	}
 
-	getDrop(drop:any): any[] {
+	getDrop(drop:any): Drop {
 		return this.indexService.get('Drops','byDrop',drop)
 	}
 

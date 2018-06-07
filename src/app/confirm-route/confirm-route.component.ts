@@ -17,7 +17,7 @@ export class ConfirmRouteComponent implements OnInit, OnDestroy {
 	today: any = new Date();
 	subscription: any;
 
-  constructor(private ds: DataService, private router: Router,
+  constructor(public ds: DataService, private router: Router,
 			private activatedRoute: ActivatedRoute) {
 
 	}

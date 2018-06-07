@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 
 import { ConfirmRouteComponent } from './confirm-route.component';
 import { DataService } from '../shared/data.service';
-import { IndexService } from '../shared/index.service';
+import { ObjectIndexService } from 'object-index-service';
 
 class MockDs {
 	current = {
