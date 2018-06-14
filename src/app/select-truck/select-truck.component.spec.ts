@@ -12,7 +12,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { SelectTruckComponent } from './select-truck.component';
 import { DataService } from '../shared/data.service';
-import { IndexService } from '../shared/index.service';
+import { ObjectIndexService } from 'object-index-service';
 
 describe('SelectTruckComponent', () => {
   let component: SelectTruckComponent;
@@ -35,7 +35,7 @@ describe('SelectTruckComponent', () => {
     TestBed.configureTestingModule({
 			providers: [ //DataService,
 										{ provide: DataService, useClass: mockDs },
-										IndexService, DatePipe	],
+										ObjectIndexService, DatePipe	],
 			imports: [ FormsModule, HttpClientTestingModule,
 									RouterTestingModule.withRoutes([
 										{ path: '**', redirectTo: '/', pathMatch: 'full' }
@@ -380,12 +380,6 @@ describe('SelectTruckComponent', () => {
 					let obs$ = of([{tstId: 3}]);
 					let rtn$ = component.storeSelectors('test', obs$);
 					expect(rtn$).toBe(obs$);
-				})
-				it("should unsubscribe", () => {
-					let subj = new Subject<Array<any>>()
-					subj.next([{tstId: 3}]);
-					let rtn$ = component.storeSelectors('test', subj.asObservable());
-					expect(subj.observers.length).toEqual(0);
 				})
 			});
 			describe(".clearCurrentStartingWithKey", () => {

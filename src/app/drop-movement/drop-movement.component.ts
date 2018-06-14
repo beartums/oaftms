@@ -19,9 +19,9 @@ const ROLES = {
 
 
 @Component({
-  selector: 'app-drop-movement',
-  templateUrl: './drop-movement.component.html',
-  styleUrls: ['./drop-movement.component.css'],
+	selector: 'app-drop-movement',
+	templateUrl: './drop-movement.component.html',
+	styleUrls: ['./drop-movement.component.css'],
 	providers: [breakpointsProvider()]
 })
 export class DropMovementComponent implements OnInit {
@@ -44,10 +44,10 @@ export class DropMovementComponent implements OnInit {
 	roles = [];
 
 
-  constructor(private ds: DataService, private activatedRoute: ActivatedRoute,
+	constructor(private ds: DataService, private activatedRoute: ActivatedRoute,
 							private router: Router, private bps: BreakpointsService) { }
 
-  ngOnDestroy() {
+	ngOnDestroy() {
 		if (this.subscriptions.router) this.subscriptions.router.unsubscribe();
 		if (this.subscriptions.breakpointService) this.subscriptions.breakpointService.unsubscribe();
 	}
@@ -66,7 +66,7 @@ export class DropMovementComponent implements OnInit {
 							TruckNumber: params.get('TruckNumber'),
 							DropID: params.get('DropID'),
 							direction: params.get('direction'),
-							confirm: params.get('confirm')
+							confirm: params.get('confirm') ? params.get('confirm') : null
 						}
 
 						// get the cached objects
@@ -90,7 +90,8 @@ export class DropMovementComponent implements OnInit {
 													: this.ds.getDrop(this.params);
 
 						this.data.dropMovement = this.ds.getDropMovement(this.params);
-						this.data.dropMovementDetails = this.data.dropMovement.dropMovementDetails;
+						this.data.dropMovementDetails =
+									this.data.dropMovement.dropMovementDetails;
 
 						// get the list of signees
 						this.roles = this.params.DropID == this._C.warehouse ? ROLES[this._C.warehouse] : ROLES[this._C.truck];
@@ -98,7 +99,7 @@ export class DropMovementComponent implements OnInit {
 						// Have to pre-generate DMDs and save in the index
 						console.log('dropMovementComponentData',this.data);
 		});
-  }
+	}
 
 	areAllSigned(sigs?: any[]): boolean {
 		sigs = sigs || this.signatures;
@@ -111,7 +112,7 @@ export class DropMovementComponent implements OnInit {
 	back(isConfirmation) {
 		isConfirmation =
 					isConfirmation === false || isConfirmation === true
-				? isConfirmation : this.data.isConfirmation;
+				? isConfirmation : this.data.confirm;
 
 		if (isConfirmation) {
 			// return to data entry form
@@ -133,7 +134,7 @@ export class DropMovementComponent implements OnInit {
 
 			// Save signatures and data
 			// Mark this DropAssignment as completed
-			let navParams = Object.assign({confirm: true},this.params);
+			let navParams = Object.assign(this.params,{confirm: "true"});
 			this.router.navigate(['/drop-movement', navParams]);
 		}
 

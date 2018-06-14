@@ -8,7 +8,7 @@ import { HttpModule } from '@angular/http'
 
 import { LoginComponent } from './login.component';
 import { DataService } from '../shared/data.service';
-import { IndexService } from '../shared/index.service';
+//import { IndexService } from '../shared/index.service';
 
 class MockDs {
 	getUsers(cred) {

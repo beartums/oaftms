@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { of } from 'rxjs';
 
 import { DataService } from './data.service';
-import { IndexService } from './index.service';
+import { ObjectIndexService } from 'object-index-service';
 import * as _ from 'lodash';
 
 let countries = [
@@ -17,7 +17,7 @@ describe('DataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
 			imports: [ HttpClientTestingModule ],
-      providers: [DataService, IndexService ]
+      providers: [DataService, ObjectIndexService ]
     });
   });
 
