@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 import { DataService } from '../shared/data.service';
 
 @Component({
-  selector: 'app-confirm-route',
-  templateUrl: './confirm-route.component.html',
-  styleUrls: ['./confirm-route.component.css']
+	selector: 'app-confirm-route',
+	templateUrl: './confirm-route.component.html',
+	styleUrls: ['./confirm-route.component.css']
 })
 export class ConfirmRouteComponent implements OnInit, OnDestroy {
 
@@ -17,10 +17,8 @@ export class ConfirmRouteComponent implements OnInit, OnDestroy {
 	today: any = new Date();
 	subscription: any;
 
-  constructor(public ds: DataService, private router: Router,
-			private activatedRoute: ActivatedRoute) {
-
-	}
+	constructor(public ds: DataService, private router: Router,
+			private activatedRoute: ActivatedRoute) {}
 
 	ngOnInit() {
 		this.subscription = this.activatedRoute.paramMap.subscribe(params => {
@@ -32,10 +30,10 @@ export class ConfirmRouteComponent implements OnInit, OnDestroy {
 							date: new Date(params.get('Day'))
 						}
 
-						this.data.truck = truck;
+            this.data.truck = truck;
 						this.populateDisplayEntities(truck);
 		});
-  }
+	}
 
 	ngOnDestroy() {
 		this.subscription.unsubscribe();
@@ -66,10 +64,12 @@ export class ConfirmRouteComponent implements OnInit, OnDestroy {
 		}
 
 		for (let i = 0; i < ddials.length; i++) {
-			totals.NumberOfUnits_ExcludingBuffer += ddials[i].NumberOfUnits_ExcludingBuffer;
+			totals.NumberOfUnits_ExcludingBuffer +=
+				ddials[i].NumberOfUnits_ExcludingBuffer;
 			totals.NumberOfBufferUnits += ddials[i].TotalBuffer;
 			totals.BufferKg += ddials[i].TotalBuffer * ddials[i].KgPerUnit;
-			totals.TotalKg += ddials[i].NumberOfUnits_ExcludingBuffer * ddials[i].KgPerUnit + ddials[i].TotalBuffer * ddials[i].KgPerUnit;
+			totals.TotalKg +=
+				ddials[i].NumberOfUnits_ExcludingBuffer * ddials[i].KgPerUnit + ddials[i].TotalBuffer * ddials[i].KgPerUnit;
 		}
 
 		return totals;
@@ -84,11 +84,6 @@ export class ConfirmRouteComponent implements OnInit, OnDestroy {
 	}
 
 	go(): void {
-		// get Drops
-		// get DropAssignments
-		// get DropMovements
-		// get inputs
-		// get SeasonInputSizes
 		this.router.navigate(['/drop-movement',
 													{	DistrictID: this.data.district.DistrictID,
 														DeliveryID: this.data.delivery.DeliveryID,

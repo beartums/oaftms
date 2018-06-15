@@ -1,12 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import {RouterTestingModule} from '@angular/router/testing'
-
-import { HttpModule } from '@angular/http';
+import { RouterTestingModule } from '@angular/router/testing'
+import { convertToParamMap, ActivatedRoute } from '@angular/router';
+//import { HttpModule } from '@angular/http';
+import { of } from 'rxjs';
 
 import { ConfirmRouteComponent } from './confirm-route.component';
 import { DataService } from '../shared/data.service';
-import { ObjectIndexService } from 'object-index-service';
+
+import { HttpModule } from '@angular/http';
 
 class MockDs {
 	current = {
@@ -15,7 +17,8 @@ class MockDs {
 		truck: {
 			dropAssignments: [],
 		}
-	};
+  };
+
 	data = {
 		dropMovement: {
 			dropMovementDetails: [],
@@ -32,17 +35,29 @@ class MockDs {
 	}
 	getSeasonInputSize() {
 		return {};
-	}
+  }
+  getDropMovementDetails() {
+    return [];
+  }
 }
 
 describe('ConfirmRouteComponent', () => {
   let component: ConfirmRouteComponent;
   let fixture: ComponentFixture<ConfirmRouteComponent>;
+  let activatedRouteParamMap = of(
+    convertToParamMap(
+      {	DistrictId: 1, DeliveryId: 1, TruckNumber: 1, Day: '2017-05-05'}
+    )
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-			providers: [ {provide: DataService, useClass: MockDs} ],
-			imports: [ FormsModule, HttpModule, RouterTestingModule ],
+			providers: [
+        { provide: DataService, useClass: MockDs },
+        { provide: ActivatedRoute, useValue: { paramMap: activatedRouteParamMap}}
+      ],
+      imports: [ FormsModule,
+                 HttpModule, RouterTestingModule ],
       declarations: [ ConfirmRouteComponent ]
     })
     .compileComponents();
