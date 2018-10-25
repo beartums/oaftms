@@ -37,15 +37,14 @@ describe('SelectTruckComponent', () => {
 										{ provide: DataService, useClass: mockDs },
 										ObjectIndexService, DatePipe	],
 			imports: [ FormsModule, HttpClientTestingModule,
-									RouterTestingModule.withRoutes([
-										{ path: '**', redirectTo: '/', pathMatch: 'full' }
-									]) ],
+									RouterTestingModule ],
       declarations: [ SelectTruckComponent ]
     })
     .compileComponents();
   }));
 
-	// separating these tests so that the fixture is not updatesd until after spies aren
+  // separating these tests so that the fixture is not updated
+  //  until after spies are
 	//  in place so that we can spyon the ngOnInit function
 
 	describe("Initialization and constructor tests", () => {

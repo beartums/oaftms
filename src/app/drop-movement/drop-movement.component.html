@@ -1,4 +1,5 @@
 <div class="wrapper container-fluid w-100">
+  <!-- .header freezes this content at the top of the screen -->
   <div class="header">
     <div class="row">
       <div class="col-12">
@@ -13,35 +14,36 @@
     <br />
     <div class="row w-100">
       <div class="col-12 w-100">
-        <div *ngIf="view.size=='lg' || view.size=='md'"
+        <!-- Show the column headers if the display is wide enough for 1    row/input -->
+        <div *ngIf="view.size=='lg' || view.size=='md' || view.size=='xl'"
              class="row bg-grey "
              id="headers">
-          <div class="col-md-7 col-8">
+          <div class="col-7">
             <div class="row">
-              <div class="col-md-8 col-12">
+              <div class="col-8">
                 <strong>Input</strong>
               </div>
-              <div class="col-md-1 col-4 text-right">
+              <div class="col-1 text-right">
                 <strong> Pkts</strong>
               </div>
-              <div class="col-md-1 col-4 text-right">
+              <div class="col-1 text-right">
                 <strong> Bales</strong>
               </div>
-              <div class="col-md-1 col-4 text-right">
-                <strong> Pkts/Bale</strong>
+              <div class="col-2 text-right">
+                <!--strong> Pkts/Bale</strong-->
               </div>
             </div>
           </div>
-          <div class="col-md-5 col-4">
+          <div class="col-5">
             <div class="row">
-              <div class="col-md-6 col-12">
-                <strong>Lot#</strong>
-              </div>
-              <div class="col-md-3 col-6">
+              <div class="col-3">
                 <strong> Packets</strong>
               </div>
-              <div class="col-md-3 col-6">
+              <div class="col-3">
                 <strong>Bales</strong>
+              </div>
+              <div class="col-3">
+                <strong>Lot#</strong>
               </div>
             </div>
           </div>
@@ -50,12 +52,15 @@
     </div>
   </div>
 
+  <!-- .content is the scrollable section of the screen -- the inputs to be loaded/unloaded -->
   <div class="content w-100">
     <div class="row align-items-center"
          id="details"
          *ngFor="let dropMovementDetail of data.dropMovementDetails; let odd=odd"
          [ngClass]="odd ? 'bg-light' : ''">
-      <div class="col-md-7 col-8 h-100">
+
+      <!-- Input Description and bale/packet quantity -->
+      <div class="col-sm-7 h-100">
         <div class="row align-items-center h-100 d-flex">
           <div class="col-md-8 col-12 h-100 my-auto">
             <h5 class="">
@@ -75,51 +80,51 @@
               </span> {{ getBaleQuantity(dropMovementDetail) }}
             </span>
           </div>
-          <div class="col-md-1 col-4 text-right">
+          <div class="col-md-2 col-4 text-center small">
             <span *ngIf="dropMovementDetail.PacketsPerBale>0">
-              <span *ngIf="view.size=='sm' || view.size=='xs'">
-                Pkts/Bale:
-              </span> {{ dropMovementDetail.PacketsPerBale }}
+              ({{ dropMovementDetail.PacketsPerBale }} p/b)
             </span>
           </div>
         </div>
       </div>
-      <div class="col-md-5 col-4">
-        <div class="row align-items-start">
-          <div class="col-md-6 col-12">
-            <input *ngIf="!data.confirm"
-                   class="form-control"
-                   [(ngModel)]="dropMovementDetail.enteredLot"
-                   placeholder="Lot #"
-                   size="10">
-            <span *ngIf="data.confirm">
-              <h6>{{dropMovementDetail.enteredLot}}</h6>
-            </span>
-          </div>
-          <div class="col-md-3 col-6">
-            <input *ngIf="!data.confirm"
-                   class="form-control"
-                   [(ngModel)]="dropMovementDetail.enteredPackets"
-                   placeholder="Pkts"
-                   size="4">
-            <span *ngIf="data.confirm">
-              <h6>{{dropMovementDetail.enteredPackets}}</h6>
-            </span>
-          </div>
-          <div class="col-md-3 col-6">
-            <input class="form-control"
-                   *ngIf="dropMovementDetail.PacketsPerBale>0 && !data.confirm"
-                   [(ngModel)]="dropMovementDetail.enteredBales"
-                   placeholder="Bales"
-                   size="4">
-            <span *ngIf="data.confirm">
-              <h6>
-                {{dropMovementDetail.enteredBales}}
-              </h6>
-            </span>
+        <!-- Lot number and packet/bale qty -->
+        <div class="col-sm-5">
+          <div class="row align-items-center h-100 d-flex my-auto">
+            <div class="col-md-3 col-6">
+              <input *ngIf="!data.confirm"
+                      class="form-control"
+                      [(ngModel)]="dropMovementDetail.enteredPackets"
+                      placeholder="Pkts"
+                      size="4">
+              <span *ngIf="data.confirm">
+                <h6>{{dropMovementDetail.enteredPackets}}</h6>
+              </span>
+            </div>
+            <div class="col-md-3 col-6">
+              <input class="form-control"
+                      *ngIf="dropMovementDetail.PacketsPerBale>0 && !data.confirm"
+                      [(ngModel)]="dropMovementDetail.enteredBales"
+                      placeholder="Bales"
+                      size="4">
+              <span *ngIf="data.confirm">
+                <h6>
+                  {{dropMovementDetail.enteredBales}}
+                </h6>
+              </span>
+            </div>
+            <div class="col-md-6 col-12">
+              <input *ngIf="!data.confirm"
+                    class="form-control"
+                    [(ngModel)]="dropMovementDetail.enteredLot"
+                    placeholder="Lot #"
+                    size="10">
+              <span *ngIf="data.confirm">
+                <h6>{{dropMovementDetail.enteredLot}}</h6>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+
 
     </div>
   </div>

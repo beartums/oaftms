@@ -10,66 +10,68 @@ import { DataService } from '../shared/data.service';
 
 import { HttpModule } from '@angular/http';
 
-class MockDs {
-	current = {
-		delivery: {},
-		district: {},
-		truck: {
-			dropAssignments: [],
-		}
-  };
-
-	data = {
-		dropMovement: {
-			dropMovementDetails: [],
-		}
-	}
-	getDrop() {
-		return {};
-	}
-	getDropMovement() {
-		return this.data.dropMovement;
-	}
-	getInput() {
-		return {};
-	}
-	getSeasonInputSize() {
-		return {};
+// Dataservice provider; needed functions created as spies
+let dsSpyObj = jasmine.createSpyObj("DataService", [
+  'getDrop', 'getDropMovement',
+  'getInput','getSeasonInputs','getDropMovementDetails'
+]);
+// properties used
+dsSpyObj.current = {
+  delivery: {},
+  district: {},
+  truck: {
+    dropAssignments: [],
   }
-  getDropMovementDetails() {
-    return [];
+}
+dsSpyObj.data = {
+  dropMovement: {
+    dropMovementDetails: [],
   }
 }
 
+// Parameters for the mock activated route
+let params: any = {
+  DistrictID: 1, DeliveryID: 1, TruckNumber: 1, Day: '2017-05-05'
+}
+
 describe('ConfirmRouteComponent', () => {
-  let component: ConfirmRouteComponent;
-  let fixture: ComponentFixture<ConfirmRouteComponent>;
-  let activatedRouteParamMap = of(
-    convertToParamMap(
-      {	DistrictId: 1, DeliveryId: 1, TruckNumber: 1, Day: '2017-05-05'}
-    )
-  );
+	let component: ConfirmRouteComponent;
+	let fixture: ComponentFixture<ConfirmRouteComponent>;
+	let activatedRouteParamMap = of(
+		convertToParamMap( params )
+	);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
 			providers: [
-        { provide: DataService, useClass: MockDs },
-        { provide: ActivatedRoute, useValue: { paramMap: activatedRouteParamMap}}
-      ],
-      imports: [ FormsModule,
-                 HttpModule, RouterTestingModule ],
-      declarations: [ ConfirmRouteComponent ]
-    })
-    .compileComponents();
-  }));
+				{ provide: DataService, useValue: dsSpyObj },
+				{ provide: ActivatedRoute, useValue: { paramMap: activatedRouteParamMap}}
+			],
+			imports: [ FormsModule,
+								 HttpModule, RouterTestingModule ],
+			declarations: [ ConfirmRouteComponent ]
+		})
+		.compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConfirmRouteComponent);
+	beforeEach(() => {
+		fixture = TestBed.createComponent(ConfirmRouteComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    spyOn(component,'ngOnInit').and.callThrough();
+    spyOn(component,'populateDisplayEntities').and.callThrough();
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
+	it("should create data.truck that matches params",() => {
+		params.date = new Date(params.Day);
+		expect(component.data.truck).toEqual(params);
   });
+  it('should call .populateDisplayEntities', () => {
+    expect(component['populateDisplayEntities']).toHaveBeenCalledTimes(1);
+    params.date = new Date(params.Day);
+    expect(component['populateDisplayEntities']).toHaveBeenCalledWith(params);
+  })
 });

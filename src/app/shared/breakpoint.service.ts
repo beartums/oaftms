@@ -31,10 +31,11 @@ export interface BreakpointConfig {
 }
 
 export const defaultBreakpoints: BreakpointConfig = {
-    xs: { max: 768 },
-    sm: { min: 768, max: 992 },
-    md: { min: 992, max: 1200 },
-    lg: { min: 1200 }
+    xs: { max: 575 },
+    sm: { min: 576, max: 767 },
+    md: { min: 768, max: 991 },
+    lg: { min: 991, max: 1199 },
+    xl: { min: 1200}
 };
 
 const FALLBACK_BREAKPOINT = {

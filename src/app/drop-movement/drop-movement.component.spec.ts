@@ -51,7 +51,7 @@ describe('DropMovementComponent', () => {
 					}
 				}
 			],
-			imports: [ FormsModule,  RouterTestingModule,	ModalModule.forRoot(),
+			imports: [ FormsModule,	ModalModule.forRoot(), RouterTestingModule,
 									SignaturePadModule, HttpModule ],
       declarations: [ DropMovementComponent, SignatureModalComponent ]
     })
