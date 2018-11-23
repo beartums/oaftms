@@ -84,12 +84,11 @@ export class DropMovementComponent implements OnInit {
                 for (let idName in cat.indexDefinitions) {
                   ids.push(cat.indexDefinitions[idName]);
                 }
-                let newCat = this.ds.createCatalog(cat.entityName,cat.entities,
-                         ids);
+               this.ds.createCatalog(cat.entityName,cat.entities,                        ids);
               }
 
             }
-						// get the cached objects
+						// // get the cached objects
 						this.data = this.ds.current;
 
 						// is this LOAD or UNLOAD

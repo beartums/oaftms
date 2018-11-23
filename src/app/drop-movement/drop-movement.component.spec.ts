@@ -8,6 +8,8 @@ import { DataService } from '../shared/data.service';
 import { ModalModule } from "ngx-bootstrap/modal";
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignatureModalComponent } from '../signature-modal/signature-modal.component';
+// import { Current } from '../data/defaultCurrent';
+// import { Catalogs } from '../data/defaultCatalogs';
 
 import { DropMovementComponent } from './drop-movement.component';
 //import { IndexService } from '../shared/index.service';
@@ -19,6 +21,9 @@ class MockDs {
 			dropMovementDetails: [],
 		}
 	}
+  createCatalog() {
+    return {};
+  }
 	getDrop() {
 		return {};
 	}
@@ -88,7 +93,5 @@ describe('DropMovementComponent', () => {
     dmd.enteredPackets = 85;
     dmd.enteredBales = 3
     expect(component.getInputColor(dmd)).toEqual("text-success");
-
-
   })
 });
