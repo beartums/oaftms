@@ -72,6 +72,7 @@ describe('DropMovementComponent', () => {
     expect(component.getInputColor).toBeTruthy();
     let dmd = {
       enteredPackets: null,
+      enteredBales: null,
       NumberOfUnits_ExcludingBuffer: 95,
       TotalBuffer: 5,
       PacketsPerBale: 5,
@@ -84,6 +85,10 @@ describe('DropMovementComponent', () => {
     expect(component.getInputColor(dmd)).toEqual("text-danger");
     dmd.enteredPackets = 90;
     expect(component.getInputColor(dmd)).toEqual("text-warning");
+    dmd.enteredPackets = 85;
+    dmd.enteredBales = 3
+    expect(component.getInputColor(dmd)).toEqual("text-success");
+
 
   })
 });

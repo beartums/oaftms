@@ -266,6 +266,7 @@ export class DropMovementComponent implements OnInit {
     let entered = this.getEnteredWeight([dmd]);
     let diff = entered - expected;
     let variance = Math.abs(diff/expected);
+    // HACK: DO NOT HARD CODE THESE VALUES
     if (variance > .1) {
       return 'text-danger'
     } else if (variance > .05) {
