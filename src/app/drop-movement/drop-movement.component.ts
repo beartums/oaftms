@@ -101,7 +101,15 @@ export class DropMovementComponent implements OnInit {
 		});
 	}
 
-	areAllSigned(sigs?: any[]): boolean {
+  /**
+   * Have all the responsible people signed to verify the Drop Movement totals?
+   *
+   * @param {any[]} [sigs] Array of signatures
+   * @returns {boolean} True if all signatures are valid
+   *
+   * @memberOf DropMovementComponent
+   */
+  areAllSigned(sigs?: any[]): boolean {
 		sigs = sigs || this.signatures;
 		for (let prop in sigs) {
 			if (!sigs[prop]) return false
@@ -109,7 +117,15 @@ export class DropMovementComponent implements OnInit {
 		return true;
 	}
 
-	back(isConfirmation) {
+  /**
+   * Navigate back to previous page
+   *
+   * @param {any} isConfirmation True if this is a confirmation page (returns
+   *  to the drop movement edit page rather than the truck confirmation page)
+   *
+   * @memberOf DropMovementComponent
+   */
+  back(isConfirmation) {
 		isConfirmation =
 					isConfirmation === false || isConfirmation === true
 				? isConfirmation : this.data.confirm;
@@ -127,7 +143,16 @@ export class DropMovementComponent implements OnInit {
 
 	}
 
-	go(dropId: string, movementType: string, isConfirmation: boolean) {
+  /**
+   * Navigate to the next page
+   *
+   * @param {string} dropId Current drop ID
+   * @param {string} movementType Direction of the movement (Load/Unload)
+   * @param {boolean} isConfirmation Am I navigating from a confirmation page?
+   *
+   * @memberOf DropMovementComponent
+   */
+  go(dropId: string, movementType: string, isConfirmation: boolean) {
 		console.log(this.ds);
 		if (!isConfirmation) {
 			// Return to route confirmation page with this drop completed
@@ -140,7 +165,16 @@ export class DropMovementComponent implements OnInit {
 
 	}
 
-	isDirectedMovement(movementType: string, params: any): boolean {
+  /**
+   * Does this movement get load/unload 'hints', or should it be blind
+   *
+   * @param {string} movementType Load/Unload
+   * @param {*} params Route Params object
+   * @returns {boolean} True if this movement gets 'hints'
+   *
+   * @memberOf DropMovementComponent
+   */
+  isDirectedMovement(movementType: string, params: any): boolean {
 		if (movementType == this._C.unload && params.DropID == this._C.warehouse) return false;
 		if (movementType == this._C.load && params.DropID != this._C.warehouse) return false;
 		return true;
@@ -148,7 +182,15 @@ export class DropMovementComponent implements OnInit {
 
 		// get the total KG by aggregating for a warehouse load or by pulling a single drop
 		// at a drop
-	getDropWeight(dropMovementDetails: any[]): number {
+  /**
+   * Get the total KG by aggregating for a warehouse load or by pulling single drop
+   *
+   * @param {any[]} dropMovementDetails All drops included in this aggregate
+   * @returns {number} Total for this movement
+   *
+   * @memberOf DropMovementComponent
+   */
+  getDropWeight(dropMovementDetails: any[]): number {
 		let totalKg = 0;
 		for (let i = 0; i < dropMovementDetails.length; i++) {
 			let dmd = dropMovementDetails[i];
@@ -159,7 +201,15 @@ export class DropMovementComponent implements OnInit {
 		return Math.round(totalKg);
 	}
 
-	getEnteredWeight(dropMovementDetails: any[]): number {
+  /**
+   * Get the total weight for everything entered on the tablet for this movement
+   *
+   * @param {any[]} dropMovementDetails All the drops included in this movement
+   * @returns {number} Total entered for the passed drop details
+   *
+   * @memberOf DropMovementComponent
+   */
+  getEnteredWeight(dropMovementDetails: any[]): number {
 		let totalKg = 0;
 		for (let i = 0; i < dropMovementDetails.length; i++) {
 			let dmd = dropMovementDetails[i];
@@ -171,14 +221,32 @@ export class DropMovementComponent implements OnInit {
 		return Math.round(totalKg);
 	}
 
-	getWeightDiff(dropMovementDetails): number {
+  /**
+   * Get te difference between the entered weight and expected weight
+   *
+   * @param {any} dropMovementDetails Drop details to compare
+   * @returns {number} Weight difference
+   *
+   * @memberOf DropMovementComponent
+   */
+  getWeightDiff(dropMovementDetails): number {
 		let entered = this.getEnteredWeight(dropMovementDetails);
 		let assigned = this.getDropWeight(dropMovementDetails);
 		let diff = assigned - entered;
 		if (diff!==0) return Math.abs(diff/assigned)
 		else return 0;
 	}
-	getInputNameAndWeight(dropMovementDetail: any): string {
+
+  /**
+   * retrieve the String name and weight of an input for display purposes
+   * in the format 'NAME (WEIGHT KG)' if WEIGHT > 1, otherwise 'NAME'
+   *
+   * @param {*} dropMovementDetail The single drop movement involved
+   * @returns {string} formatted string of name and weight
+   *
+   * @memberOf DropMovementComponent
+   */
+  getInputNameAndWeight(dropMovementDetail: any): string {
 		let input = this.ds.getInput(dropMovementDetail);
 		let seasonInputSize = this.ds.getSeasonInputSize(dropMovementDetail);
 		let name = input.InputName;
@@ -187,7 +255,16 @@ export class DropMovementComponent implements OnInit {
 		let nameAndWeight = name + ' ' + weight;
 		return nameAndWeight.trim();
 	}
-	getPacketQuantity(dropMovementDetail: any): number {
+
+  /**
+   * Retrieve the packet quantity for this item for this movement
+   *
+   * @param {*} dropMovementDetail Drop movement to use
+   * @returns {number} Packet quantity
+   *
+   * @memberOf DropMovementComponent
+   */
+  getPacketQuantity(dropMovementDetail: any): number {
 		let qty = 0;
 		if (dropMovementDetail.PacketsPerBale) {
 			qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer % dropMovementDetail.PacketsPerBale;
@@ -196,7 +273,16 @@ export class DropMovementComponent implements OnInit {
 		}
 		return qty;
 	}
-	getBaleQuantity(dropMovementDetail: any): number {
+
+  /**
+   * Get the bale quatitiy for this item for this movement
+   *
+   * @param {*} dropMovementDetail The item detail
+   * @returns {number} Bale Quantity
+   *
+   * @memberOf DropMovementComponent
+   */
+  getBaleQuantity(dropMovementDetail: any): number {
 		let qty = 0;
 		if (dropMovementDetail.PacketsPerBale) {
 			qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer / dropMovementDetail.PacketsPerBale;
@@ -205,7 +291,15 @@ export class DropMovementComponent implements OnInit {
 		return qty;
 	}
 
-	sign(role: string, modal: any) {
+  /**
+   * Initiate signature
+   *
+   * @param {string} role The role of the person signing
+   * @param {*} modal The modal that will be invoked for the signature
+   *
+   * @memberOf DropMovementComponent
+   */
+  sign(role: string, modal: any) {
 		this.role = role;
 		let signature = this.signatures[role];
 		modal.openModal(signature);

@@ -147,12 +147,12 @@
           </h6>
         </div>
       </div>
-      <div class="row">
+      <div class="row my-auto">
         <div class="col-6 text-right my-auto">
           <span class="my-auto">{{data.movementType}}ed:</span>
         </div>
         <div class="col-6 my-auto">
-          <h6 class="">
+          <h6 class=" my-auto">
             <strong>
               <span [ngClass]="{'text-danger':getWeightDiff(data.dropMovementDetails)>=.1,
 														'text-warning':getWeightDiff(data.dropMovementDetails)>.01 &&
@@ -180,7 +180,7 @@
       <button class="btn btn-lg btn-primary my-auto"
               (click)="go()"
               [disabled]="!areAllSigned(signatures) && data.confirm">
-        Confirm &gt;&gt;
+        Next &gt;&gt;
       </button>
     </div>
   </div>
