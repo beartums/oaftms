@@ -254,7 +254,26 @@ export class DropMovementComponent implements OnInit {
 		weight = weight < 1 ? '' : '(' + weight + ' Kg)';
 		let nameAndWeight = name + ' ' + weight;
 		return nameAndWeight.trim();
-	}
+  }
+
+  getInputColor(dropMovementDetail: any): string {
+    let dmd = dropMovementDetail
+    if (this.isNotEntered(dmd.enteredPackets)
+        && this.isNotEntered(dmd.enteredBales)) {
+          return "";
+        }
+    let expected = this.getDropWeight([dmd]);
+    let entered = this.getEnteredWeight([dmd]);
+    let diff = entered - expected;
+    let variance = Math.abs(diff/expected);
+    if (variance > .1) {
+      return 'text-danger'
+    } else if (variance > .05) {
+      return 'text-warning'
+    } else {
+      return 'text-success'
+    }
+  }
 
   /**
    * Retrieve the packet quantity for this item for this movement
@@ -265,11 +284,12 @@ export class DropMovementComponent implements OnInit {
    * @memberOf DropMovementComponent
    */
   getPacketQuantity(dropMovementDetail: any): number {
-		let qty = 0;
+    let qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer +
+              dropMovementDetail.TotalBuffer;
 		if (dropMovementDetail.PacketsPerBale) {
-			qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer % dropMovementDetail.PacketsPerBale;
+			qty = qty % dropMovementDetail.PacketsPerBale;
 		} else {
-			qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer;
+			qty = qty;
 		}
 		return qty;
 	}
@@ -283,9 +303,10 @@ export class DropMovementComponent implements OnInit {
    * @memberOf DropMovementComponent
    */
   getBaleQuantity(dropMovementDetail: any): number {
-		let qty = 0;
+		let qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer +
+              dropMovementDetail.TotalBuffer;
 		if (dropMovementDetail.PacketsPerBale) {
-			qty = dropMovementDetail.NumberOfUnits_ExcludingBuffer / dropMovementDetail.PacketsPerBale;
+			qty = qty / dropMovementDetail.PacketsPerBale;
 			qty = Math.floor(qty);
 		}
 		return qty;
@@ -303,6 +324,10 @@ export class DropMovementComponent implements OnInit {
 		this.role = role;
 		let signature = this.signatures[role];
 		modal.openModal(signature);
-	}
+  }
+
+  isNotEntered(value: number | string): boolean {
+    return !value && value!==0
+  }
 
 }

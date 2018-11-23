@@ -63,7 +63,7 @@
       <div class="col-sm-7 h-100">
         <div class="row align-items-center h-100 d-flex">
           <div class="col-md-8 col-12 h-100 my-auto">
-            <h5 class="">
+            <h5 [ngClass]="getInputColor(dropMovementDetail)">
               {{ getInputNameAndWeight(dropMovementDetail) }}
             </h5>
           </div>
