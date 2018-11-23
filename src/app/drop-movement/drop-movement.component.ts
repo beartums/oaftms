@@ -75,6 +75,7 @@ export class DropMovementComponent implements OnInit {
 							confirm: params.get('confirm') ? params.get('confirm') : null
 						}
 
+            // Load test data if starting on this page
             if (!this.ds.current.country) {
               this.ds.current = this.DefaultCurrent;
               for (let catName in this.DefaultCatalogs) {
