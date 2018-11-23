@@ -451,11 +451,11 @@ export class DataService {
 					new IndexDefinition('byInputCategory', ['InputCategory'], true),
 				]);
 
-				this.createCatalog('SeasonInputSizes', data.SeasonInputSizes, [
-					new IndexDefinition('byDeliveryInputSize', ['DistrictID', 'DeliveryID', 'InputID', 'SeasonInputSizeID'], false),
-					new IndexDefinition('byDeliveryInput', ['DistrictID', 'DeliveryID', 'InputID'], true),
-					new IndexDefinition('byDelivery', ['DistrictID', 'DeliveryID'], true),
-				]);
+				// this.createCatalog('SeasonInputSizes', data.SeasonInputSizes, [
+				// 	new IndexDefinition('byDeliveryInputSize', ['DistrictID', 'DeliveryID', 'InputID', 'SeasonInputSizeID'], false),
+				// 	new IndexDefinition('byDeliveryInput', ['DistrictID', 'DeliveryID', 'InputID'], true),
+				// 	new IndexDefinition('byDelivery', ['DistrictID', 'DeliveryID'], true),
+				// ]);
 
 				//console.log(this.indexService.catalogs);
 
@@ -487,6 +487,10 @@ export class DataService {
 	logout(router): void {
 		this.clearData();
 		router.navigate(['/login']);
-	}
+  }
+
+  setCatalogs(catalogs: any) {
+    this.indexService.catalogs = catalogs;
+  }
 
 }

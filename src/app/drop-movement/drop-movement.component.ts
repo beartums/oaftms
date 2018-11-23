@@ -1,9 +1,13 @@
+import { IndexDefinition } from 'object-index-service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { breakpointsProvider, BreakpointsService, BreakpointEvent } from '../shared/breakpoint.service';
 
 import { DataService } from '../shared/data.service';
+
+import { Current } from '../data/defaultCurrent';
+import { Catalogs } from '../data/defaultCatalogs';
 
 const ROLES = {
 	warehouse: [
@@ -41,8 +45,10 @@ export class DropMovementComponent implements OnInit {
 	signature1: any = null;
 
 	role: string;
-	roles = [];
+  roles = [];
 
+  DefaultCurrent = Current;
+  DefaultCatalogs = Catalogs;
 
 	constructor(private ds: DataService, private activatedRoute: ActivatedRoute,
 							private router: Router, private bps: BreakpointsService) { }
@@ -69,6 +75,22 @@ export class DropMovementComponent implements OnInit {
 							confirm: params.get('confirm') ? params.get('confirm') : null
 						}
 
+            if (!this.ds.current.country) {
+              this.ds.current = this.DefaultCurrent;
+              for (let catName in this.DefaultCatalogs) {
+                let cat = this.DefaultCatalogs[catName];
+                let ids: IndexDefinition[] = [];
+                for (let idName in cat.indexDefinitions) {
+                  ids.push(cat.indexDefinitions[idName]);
+                }
+                let newCat = this.ds.createCatalog(cat.entityName,cat.entities,
+                         ids);
+                // newCat.entities = cat.entities;
+                // newCat.indices = cat.indices;
+                // newCat.indexDefinitions = cat.indexDefinitions;
+              }
+              //this.ds.setCatalogs(this.DefaultCatalogs);
+            }
 						// get the cached objects
 						this.data = this.ds.current;
 
@@ -86,8 +108,8 @@ export class DropMovementComponent implements OnInit {
 																						this.params)
 
 						this.data.drop = this.params.DropID == this._C.warehouse ?
-													{ DropName: this.data.district.DistrictName + ' Warehouse' }
-													: this.ds.getDrop(this.params);
+										{ DropName: this.data.district.DistrictName + ' Warehouse' }
+										: this.ds.getDrop(this.params);
 
 						this.data.dropMovement = this.ds.getDropMovement(this.params);
 						this.data.dropMovementDetails =
